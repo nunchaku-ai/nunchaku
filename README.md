@@ -6,7 +6,7 @@
 </h3>
 
 <div align="center">
-  <a href="https://trendshift.io/repositories/13942" target="_blank"><img src="https://trendshift.io/api/badge/repositories/13942" alt="nunchaku-ai/nunchaku | Trendshift" style="width: 130px; height: 28px;" width="130" height="28"/></a>
+  <a href="https://trendshift.io/repositories/13942" target="_blank"><img src="https://trendshift.io/api/badge/repositories/13942" alt="nunchaku-ai/nunchaku | Trendshift" style="width: 200px; height: 44px;" width="200" height="44"/></a>
 </div>
 
 <div align="center">
