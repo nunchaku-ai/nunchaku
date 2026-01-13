@@ -1,9 +1,9 @@
 <div align="center" id="nunchaku_logo">
   <img src="https://huggingface.co/datasets/nunchaku-ai/cdn/resolve/main/logo/v2/nunchaku-compact-transparent.png" alt="logo" width="220"></img>
-
-  <a href="https://trendshift.io/repositories/13942" target="_blank"><img src="https://trendshift.io/api/badge/repositories/13942" alt="nunchaku-ai/nunchaku | Trendshift" style="width: 150px; height: 33px;" width="150" height="33"/></a>
 </div>
 <h3 align="center">
+  <a href="https://trendshift.io/repositories/13942" target="_blank"><img src="https://trendshift.io/api/badge/repositories/13942" alt="nunchaku-ai/nunchaku | Trendshift" style="width: 150px; height: 33px;" width="150" height="33"/></a>
+  
 <a href="http://arxiv.org/abs/2411.05007"><b>Paper</b></a> | <a href="https://nunchaku.tech/docs/nunchaku/"><b>Docs</b></a> | <a href="https://hanlab.mit.edu/projects/svdquant"><b>Website</b></a> | <a href="https://hanlab.mit.edu/blog/svdquant"><b>Blog</b></a> | <a href="https://demo.nunchaku.tech/"><b>Demo</b></a> | <a href="https://huggingface.co/nunchaku-ai"><b>Hugging Face</b></a> | <a href="https://modelscope.cn/organization/nunchaku-tech"><b>ModelScope</b></a> | <a href="https://github.com/nunchaku-ai/ComfyUI-nunchaku"><b>ComfyUI</b></a>
 </h3>
 
