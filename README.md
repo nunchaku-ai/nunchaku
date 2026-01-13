@@ -1,5 +1,6 @@
 <div align="center" id="nunchaku_logo">
   <img src="https://huggingface.co/datasets/nunchaku-ai/cdn/resolve/main/logo/v2/nunchaku-compact-transparent.png" alt="logo" width="220"></img>
+
   <a href="https://trendshift.io/repositories/13942" target="_blank"><img src="https://trendshift.io/api/badge/repositories/13942" alt="nunchaku-ai/nunchaku | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
 </div>
 <h3 align="center">
