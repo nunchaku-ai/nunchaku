@@ -9,8 +9,7 @@
   <a href=https://discord.gg/Wk6PnwX9Sm target="_blank"><img src=https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fdiscord.com%2Fapi%2Finvites%2FWk6PnwX9Sm%3Fwith_counts%3Dtrue&query=%24.approximate_member_count&logo=discord&logoColor=white&label=Discord&color=green&suffix=%20total height=22px></a>
   <a href=https://huggingface.co/datasets/nunchaku-ai/cdn/resolve/main/nunchaku/assets/wechat.jpg target="_blank"><img src=https://img.shields.io/badge/WeChat-07C160?logo=wechat&logoColor=white height=22px></a>
   <a href=https://deepwiki.com/nunchaku-ai/nunchaku target="_blank"><img src=https://deepwiki.com/badge.svg height=22px></a>
-
-  <a href="https://trendshift.io/repositories/13942" target="_blank"><img src="https://trendshift.io/api/badge/repositories/13942" alt="nunchaku-ai/nunchaku | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
+  <a href="https://trendshift.io/repositories/13942" target="_blank"><img src="https://trendshift.io/api/badge/repositories/13942" alt="nunchaku-ai/nunchaku | Trendshift" style="width: 250px; height: 55px;" width="100" height="22"/></a>
 </div>
 
 **Nunchaku** is a high-performance inference engine optimized for 4-bit neural networks, as introduced in our paper [SVDQuant](http://arxiv.org/abs/2411.05007). For the underlying quantization library, check out [DeepCompressor](https://github.com/nunchaku-ai/deepcompressor).
