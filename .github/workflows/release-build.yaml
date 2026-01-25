@@ -116,6 +116,7 @@ jobs:
           ref: ${{ needs.release.outputs.tag_name }}
           submodules: true
       - name: Show current commit
+        shell: cmd
         run: git log -1 --oneline
       - name: Build wheels
         shell: cmd
