@@ -76,8 +76,11 @@ jobs:
     if: needs.tag.outputs.need_build == 'true' && github.repository == 'nunchaku-ai/nunchaku'
     strategy:
       matrix:
-        python: ["3.10", "3.11", "3.12", "3.13"]
-        torch: ["2.8", "2.9", "2.10", "pre"]
+        # python: ["3.10", "3.11", "3.12", "3.13"]
+        # torch: ["2.8", "2.9", "2.10", "pre"]
+        # cuda: ["12.8", "13.0"]
+        python: ["3.10"]
+        torch: ["2.8"]
         cuda: ["12.8", "13.0"]
         exclude:
           - torch: "2.8"
@@ -117,8 +120,11 @@ jobs:
     if: needs.tag.outputs.need_build == 'true' && github.repository == 'nunchaku-tech/nunchaku'
     strategy:
       matrix:
-        python: ["3.10", "3.11", "3.12", "3.13"]
-        torch: ["2.8", "2.9", "2.10", "pre"]
+        # python: ["3.10", "3.11", "3.12", "3.13"]
+        # torch: ["2.8", "2.9", "2.10", "pre"]
+        # cuda: ["12.8", "13.0"]
+        python: ["3.10"]
+        torch: ["2.8"]
         cuda: ["12.8", "13.0"]
         exclude:
           - torch: "2.8"
