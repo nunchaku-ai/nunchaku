@@ -135,7 +135,7 @@ jobs:
       - name: Build wheels
         shell: cmd
         run: |
-          call C:\Users\muyangl\miniconda3\condabin\activate.bat activate
+          call C:\Users\nunchaku\miniconda3\condabin\activate.bat activate
           IF "${{ matrix.torch }}"=="pre" (
             call scripts\build_windows_wheel_torch_nightly.cmd ${{ matrix.python }} ${{ matrix.torch }} ${{ matrix.cuda }}
           ) ELSE (

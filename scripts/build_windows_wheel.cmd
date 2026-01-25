@@ -34,19 +34,22 @@ call conda create -y -n %ENV_NAME% python=%PYTHON_VERSION%
 call conda activate %ENV_NAME%
 
 :: install dependencies
-call pip install ninja setuptools wheel build
-call pip install --no-cache-dir torch==%TORCH_VERSION% torchvision==%TORCHVISION_VERSION% torchaudio==%TORCHAUDIO_VERSION% --index-url "https://download.pytorch.org/whl/cu%CUDA_SHORT_VERSION%/"
+call pip install uv
+call uv pip install ninja setuptools wheel build
+call uv pip install --no-cache-dir torch==%TORCH_VERSION% torchvision==%TORCHVISION_VERSION% torchaudio==%TORCHAUDIO_VERSION% --index-url "https://download.pytorch.org/whl/cu%CUDA_SHORT_VERSION%/"
 
 :: set environment variables
 set NUNCHAKU_INSTALL_MODE=ALL
 set NUNCHAKU_BUILD_WHEELS=1
+set NVCC_PREPEND_FLAGS=-allow-unsupported-compiler
+set CUDA_HOME=C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v%CUDA_VERSION%
 
 :: cd to the parent directory
 cd /d "%~dp0.."
 if exist build rd /s /q build
 
 :: set up Visual Studio compilation environment
-call "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\Common7\Tools\VsDevCmd.bat" -startdir=none -arch=x64 -host_arch=x64
+call "C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\Common7\Tools\VsDevCmd.bat" -startdir=none -arch=x64 -host_arch=x64
 set DISTUTILS_USE_SDK=1
 
 :: build wheels
