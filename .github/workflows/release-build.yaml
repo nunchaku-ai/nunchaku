@@ -51,7 +51,7 @@ jobs:
     strategy:
       matrix:
         python: ["3.10", "3.11", "3.12", "3.13"]
-        torch: ["2.7", "2.8", "2.9", "pre"]
+        torch: ["2.8", "2.9", "2.10", "pre"]
     steps:
       - name: Checkout to the tag
         uses: actions/checkout@v4
@@ -63,9 +63,9 @@ jobs:
         run: git log -1 --oneline
       - name: Build wheels
         run: |
-          if [[ "${{ matrix.torch }}" == "2.7" || "${{ matrix.torch }}" == "2.8" ]]; then
+          if [[ "${{ matrix.torch }}" == "2.8" ]]; then
             cuda_version="12.8"
-          elif [[ "${{ matrix.torch }}" == "2.9" ]]; then
+          elif [[ "${{ matrix.torch }}" == "2.9" || "${{ matrix.torch }}" == "2.10" ]]; then
             cuda_version="13.0"
           else
             cuda_version="12.4"
@@ -121,11 +121,11 @@ jobs:
         run: |
           SET TORCH_VERSION=${{ matrix.torch }}
           SET PYTHON_VERSION=${{ matrix.python }}
-          IF "%TORCH_VERSION%"=="2.7" (
-            SET CUDA_VERSION=12.8
-          ) ELSE IF "%TORCH_VERSION%"=="2.8" (
+          IF "%TORCH_VERSION%"=="2.8" (
             SET CUDA_VERSION=12.8
           ) ELSE IF "%TORCH_VERSION%"=="2.9" (
+            SET CUDA_VERSION=13.0
+          ) ELSE IF "%TORCH_VERSION%"=="2.10" (
             SET CUDA_VERSION=13.0
           ) ELSE IF "%TORCH_VERSION%"=="pre" (
             SET CUDA_VERSION=13.0
