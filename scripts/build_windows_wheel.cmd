@@ -10,23 +10,18 @@ set CUDA_SHORT_VERSION=%CUDA_VERSION:.=%
 echo %CUDA_SHORT_VERSION%
 
 :: setup some variables
-if "%TORCH_VERSION%"=="2.5" (
-    set TORCHVISION_VERSION=0.20
-    set TORCHAUDIO_VERSION=2.5
-) else if "%TORCH_VERSION%"=="2.6" (
-    set TORCHVISION_VERSION=0.21
-    set TORCHAUDIO_VERSION=2.6
-) else if "%TORCH_VERSION%"=="2.7" (
-    set TORCHVISION_VERSION=0.22
-    set TORCHAUDIO_VERSION=2.7
-) else if "%TORCH_VERSION%"=="2.8" (
+if "%TORCH_VERSION%"=="2.8" (
     set TORCHVISION_VERSION=0.23
     set TORCHAUDIO_VERSION=2.8
 ) else if "%TORCH_VERSION%"=="2.9" (
     set TORCHVISION_VERSION=0.24
     set TORCHAUDIO_VERSION=2.9
+) else if "%TORCH_VERSION%"=="2.10" (
+    set TORCHVISION_VERSION=0.25
+    set TORCHAUDIO_VERSION=2.10
 ) else (
-    echo TORCH_VERSION is not 2.5, 2.6, 2.7, 2.8 or 2.9, no changes to versions.
+    echo Unsupported TORCH_VERSION: %TORCH_VERSION%
+    exit /b 1
 )
 echo setting TORCHVISION_VERSION to %TORCHVISION_VERSION% and TORCHAUDIO_VERSION to %TORCHAUDIO_VERSION%
 

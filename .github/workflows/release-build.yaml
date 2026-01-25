@@ -52,6 +52,10 @@ jobs:
       matrix:
         python: ["3.10", "3.11", "3.12", "3.13"]
         torch: ["2.8", "2.9", "2.10", "pre"]
+        cuda: ["12.8", "13.0"]
+        exclude:
+          - torch: "2.8"
+            cuda: "13.0"
     steps:
       - name: Checkout to the tag
         uses: actions/checkout@v4
@@ -63,17 +67,10 @@ jobs:
         run: git log -1 --oneline
       - name: Build wheels
         run: |
-          if [[ "${{ matrix.torch }}" == "2.8" ]]; then
-            cuda_version="12.8"
-          elif [[ "${{ matrix.torch }}" == "2.9" || "${{ matrix.torch }}" == "2.10" ]]; then
-            cuda_version="13.0"
-          else
-            cuda_version="12.4"
-          fi
           if [[ "${{ matrix.torch }}" == "pre" ]]; then
-            bash scripts/build_linux_wheel_torch_nightly.sh ${{ matrix.python }} ${{ matrix.torch }} 13.0
+            bash scripts/build_linux_wheel_torch_nightly.sh ${{ matrix.python }} ${{ matrix.torch }} ${{ matrix.cuda }}
           else
-            bash scripts/build_linux_wheel.sh ${{ matrix.python }} ${{ matrix.torch }} $cuda_version
+            bash scripts/build_linux_wheel.sh ${{ matrix.python }} ${{ matrix.torch }} ${{ matrix.cuda }}
           fi
       - name: Upload wheels to GitHub Release
         uses: softprops/action-gh-release@v2
@@ -106,7 +103,11 @@ jobs:
     strategy:
       matrix:
         python: ["3.10", "3.11", "3.12", "3.13"]
-        torch: ["2.9", "pre"]
+        torch: ["2.8", "2.9", "2.10", "pre"]
+        cuda: ["12.8", "13.0"]
+        exclude:
+          - torch: "2.8"
+            cuda: "13.0"
     steps:
       - name: Checkout to the tag
         uses: actions/checkout@v4
@@ -119,24 +120,11 @@ jobs:
       - name: Build wheels
         shell: cmd
         run: |
-          SET TORCH_VERSION=${{ matrix.torch }}
-          SET PYTHON_VERSION=${{ matrix.python }}
-          IF "%TORCH_VERSION%"=="2.8" (
-            SET CUDA_VERSION=12.8
-          ) ELSE IF "%TORCH_VERSION%"=="2.9" (
-            SET CUDA_VERSION=13.0
-          ) ELSE IF "%TORCH_VERSION%"=="2.10" (
-            SET CUDA_VERSION=13.0
-          ) ELSE IF "%TORCH_VERSION%"=="pre" (
-            SET CUDA_VERSION=13.0
-          ) ELSE (
-            SET CUDA_VERSION=12.4
-          )
           call C:\Users\muyangl\miniconda3\condabin\activate.bat activate
-          IF "%TORCH_VERSION%"=="pre" (
-            call scripts\build_windows_wheel_torch_nightly.cmd %PYTHON_VERSION% %TORCH_VERSION% %CUDA_VERSION%
+          IF "${{ matrix.torch }}"=="pre" (
+            call scripts\build_windows_wheel_torch_nightly.cmd ${{ matrix.python }} ${{ matrix.torch }} ${{ matrix.cuda }}
           ) ELSE (
-            call scripts\build_windows_wheel.cmd %PYTHON_VERSION% %TORCH_VERSION% %CUDA_VERSION%
+            call scripts\build_windows_wheel.cmd ${{ matrix.python }} ${{ matrix.torch }} ${{ matrix.cuda }}
           )
       - name: Upload wheels to GitHub Release
         uses: softprops/action-gh-release@v2
