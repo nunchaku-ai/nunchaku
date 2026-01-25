@@ -115,7 +115,7 @@ jobs:
         run: bash scripts/linux_cleanup.sh
   windows-wheels:
     name: Build the windows nightly wheels
-    runs-on: [self-hosted, windows-build]
+    runs-on: [self-hosted, win-build]
     needs: tag
     if: needs.tag.outputs.need_build == 'true' && github.repository == 'nunchaku-tech/nunchaku'
     strategy:

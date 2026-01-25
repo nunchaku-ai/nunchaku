@@ -30,9 +30,8 @@ docker run --rm \
     cd /nunchaku && \
     rm -rf build && \
     gcc --version && g++ --version && \
-    ${PYTHON_ROOT_PATH}/bin/pip install uv && \
-    ${PYTHON_ROOT_PATH}/bin/uv pip install --no-cache-dir torch==${TORCH_VERSION} torchvision==${TORCHVISION_VERSION} torchaudio==${TORCHAUDIO_VERSION} --index-url https://download.pytorch.org/whl/cu${CUDA_VERSION//.} && \
-    ${PYTHON_ROOT_PATH}/bin/uv pip install build ninja wheel setuptools && \
+    ${PYTHON_ROOT_PATH}/bin/pip install --no-cache-dir torch==${TORCH_VERSION} torchvision==${TORCHVISION_VERSION} torchaudio==${TORCHAUDIO_VERSION} --index-url https://download.pytorch.org/whl/cu${CUDA_VERSION//.} && \
+    ${PYTHON_ROOT_PATH}/bin/pip install build ninja wheel setuptools && \
     export NUNCHAKU_INSTALL_MODE=ALL && \
     export NUNCHAKU_BUILD_WHEELS=1 && \
     export MAX_JOBS=${MAX_JOBS} && \
