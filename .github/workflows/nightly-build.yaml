@@ -117,7 +117,7 @@ jobs:
     name: Build the windows nightly wheels
     runs-on: [self-hosted, win-build]
     needs: tag
-    if: needs.tag.outputs.need_build == 'true' && github.repository == 'nunchaku-tech/nunchaku'
+    if: needs.tag.outputs.need_build == 'true' && github.repository == 'nunchaku-ai/nunchaku'
     strategy:
       matrix:
         # python: ["3.10", "3.11", "3.12", "3.13"]
