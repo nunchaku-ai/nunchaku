@@ -10,23 +10,18 @@ set CUDA_SHORT_VERSION=%CUDA_VERSION:.=%
 echo %CUDA_SHORT_VERSION%
 
 :: setup some variables
-if "%TORCH_VERSION%"=="2.5" (
-    set TORCHVISION_VERSION=0.20
-    set TORCHAUDIO_VERSION=2.5
-) else if "%TORCH_VERSION%"=="2.6" (
-    set TORCHVISION_VERSION=0.21
-    set TORCHAUDIO_VERSION=2.6
-) else if "%TORCH_VERSION%"=="2.7" (
-    set TORCHVISION_VERSION=0.22
-    set TORCHAUDIO_VERSION=2.7
-) else if "%TORCH_VERSION%"=="2.8" (
+if "%TORCH_VERSION%"=="2.8" (
     set TORCHVISION_VERSION=0.23
     set TORCHAUDIO_VERSION=2.8
 ) else if "%TORCH_VERSION%"=="2.9" (
     set TORCHVISION_VERSION=0.24
     set TORCHAUDIO_VERSION=2.9
+) else if "%TORCH_VERSION%"=="2.10" (
+    set TORCHVISION_VERSION=0.25
+    set TORCHAUDIO_VERSION=2.10
 ) else (
-    echo TORCH_VERSION is not 2.5, 2.6, 2.7, 2.8 or 2.9, no changes to versions.
+    echo Unsupported TORCH_VERSION: %TORCH_VERSION%
+    exit /b 1
 )
 echo setting TORCHVISION_VERSION to %TORCHVISION_VERSION% and TORCHAUDIO_VERSION to %TORCHAUDIO_VERSION%
 
@@ -39,19 +34,22 @@ call conda create -y -n %ENV_NAME% python=%PYTHON_VERSION%
 call conda activate %ENV_NAME%
 
 :: install dependencies
-call pip install ninja setuptools wheel build
-call pip install --no-cache-dir torch==%TORCH_VERSION% torchvision==%TORCHVISION_VERSION% torchaudio==%TORCHAUDIO_VERSION% --index-url "https://download.pytorch.org/whl/cu%CUDA_SHORT_VERSION%/"
+call pip install uv
+call uv pip install ninja setuptools wheel build
+call uv pip install --no-cache-dir torch==%TORCH_VERSION% torchvision==%TORCHVISION_VERSION% torchaudio==%TORCHAUDIO_VERSION% --index-url "https://download.pytorch.org/whl/cu%CUDA_SHORT_VERSION%/"
 
 :: set environment variables
 set NUNCHAKU_INSTALL_MODE=ALL
 set NUNCHAKU_BUILD_WHEELS=1
+set NVCC_PREPEND_FLAGS=-allow-unsupported-compiler
+set CUDA_HOME=C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v%CUDA_VERSION%
 
 :: cd to the parent directory
 cd /d "%~dp0.."
 if exist build rd /s /q build
 
 :: set up Visual Studio compilation environment
-call "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\Common7\Tools\VsDevCmd.bat" -startdir=none -arch=x64 -host_arch=x64
+call "C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\Common7\Tools\VsDevCmd.bat" -startdir=none -arch=x64 -host_arch=x64
 set DISTUTILS_USE_SDK=1
 
 :: build wheels
