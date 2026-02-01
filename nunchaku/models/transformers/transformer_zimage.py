@@ -398,8 +398,14 @@ class NunchakuZImageTransformer2DModel(ZImageTransformer2DModel, NunchakuModelLo
         AssertionError
             If the file is not a safetensors file.
         """
-        device = kwargs.get("device", "cpu")
-        offload = kwargs.get("offload", False)
+        # NOTE:
+        # `kwargs` is forwarded into `_patch_model(...)`, and further into quantized layer constructors
+        # (e.g. `SVDQW4A4Linear.from_linear(..., **kwargs)`).
+        # Loader-only arguments like `device` / `offload` (and optional `pin_memory`) must NOT be forwarded,
+        # otherwise they can break layer construction (unexpected/duplicate kwargs).
+        device = kwargs.pop("device", "cpu")
+        offload = kwargs.pop("offload", False)
+        kwargs.pop("pin_memory", None)
 
         if offload:
             raise NotImplementedError("Offload is not supported for ZImageTransformer2DModel")
