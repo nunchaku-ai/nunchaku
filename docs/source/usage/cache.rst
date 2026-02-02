@@ -52,4 +52,4 @@ Install the required package:
          :caption: Qwen-Image with Cache-DiT (`examples/v1/qwen-image-cache-dit.py <https://github.com/nunchaku-tech/nunchaku/blob/main/examples/v1/qwen-image-cache-dit.py>`__)
          :linenos:
 
-For more information, refer to the `Cache-DiT documentation <https://github.com/vipshop/cache-dit/blob/main/docs/User_Guide.md#unified-cache-apis>`__.
+For more information, refer to the `Cache-DiT documentation <https://cache-dit.readthedocs.io/en/latest/>`__.
