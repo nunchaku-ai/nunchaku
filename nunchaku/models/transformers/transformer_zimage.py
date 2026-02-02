@@ -235,14 +235,33 @@ def _convert_z_image_ff(z_ff: ZImageFeedForward) -> FeedForward:
     assert z_ff.w1.in_features == z_ff.w3.in_features
     assert z_ff.w1.out_features == z_ff.w3.out_features
     assert z_ff.w1.out_features == z_ff.w2.in_features
-    converted_ff = FeedForward(
-        dim=z_ff.w1.in_features,
-        dim_out=z_ff.w2.out_features,
-        dropout=0.0,
-        activation_fn="swiglu",
-        inner_dim=z_ff.w2.in_features,
-        bias=False,
-    ).to(dtype=z_ff.w1.weight.dtype, device=z_ff.w1.weight.device)
+    # NOTE:
+    # During `from_pretrained`, the model is typically constructed on the `meta` device
+    # and later materialized via `to_empty(...)` + `load_state_dict(...)`.
+    # Creating a fresh diffusers `FeedForward` on CPU and then moving it to `meta`
+    # would allocate large temporary tensors and can dominate load time.
+    target_dtype = z_ff.w1.weight.dtype
+    target_device = z_ff.w1.weight.device
+    if target_device.type == "meta":
+        with torch.device("meta"):
+            converted_ff = FeedForward(
+                dim=z_ff.w1.in_features,
+                dim_out=z_ff.w2.out_features,
+                dropout=0.0,
+                activation_fn="swiglu",
+                inner_dim=z_ff.w2.in_features,
+                bias=False,
+            )
+        converted_ff = converted_ff.to(dtype=target_dtype, device=target_device)
+    else:
+        converted_ff = FeedForward(
+            dim=z_ff.w1.in_features,
+            dim_out=z_ff.w2.out_features,
+            dropout=0.0,
+            activation_fn="swiglu",
+            inner_dim=z_ff.w2.in_features,
+            bias=False,
+        ).to(dtype=target_dtype, device=target_device)
     return converted_ff
 
 
@@ -379,8 +398,13 @@ class NunchakuZImageTransformer2DModel(ZImageTransformer2DModel, NunchakuModelLo
         AssertionError
             If the file is not a safetensors file.
         """
-        device = kwargs.get("device", "cpu")
-        offload = kwargs.get("offload", False)
+        # NOTE:
+        # `kwargs` is forwarded into `_patch_model(...)`, and further into quantized layer constructors
+        # (e.g. `SVDQW4A4Linear.from_linear(..., **kwargs)`).
+        # Loader-only arguments like `device` / `offload` must NOT be forwarded,
+        # otherwise they can break layer construction (unexpected/duplicate kwargs).
+        device = kwargs.pop("device", "cpu")
+        offload = kwargs.pop("offload", False)
 
         if offload:
             raise NotImplementedError("Offload is not supported for ZImageTransformer2DModel")
@@ -404,7 +428,7 @@ class NunchakuZImageTransformer2DModel(ZImageTransformer2DModel, NunchakuModelLo
         if precision == "fp4":
             precision = "nvfp4"
 
-        print(f"quantization_config: {quantization_config}, rank={rank}, skip_refiners={skip_refiners}")
+        # print(f"quantization_config: {quantization_config}, rank={rank}, skip_refiners={skip_refiners}")
 
         transformer._patch_model(skip_refiners=skip_refiners, precision=precision, rank=rank, **kwargs)
         transformer = transformer.to_empty(device=device)
